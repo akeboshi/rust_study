@@ -10,5 +10,5 @@ fn return5() -> i64{
 
 #[test]
 fn return5_test() {
-    assert_eq!(4, return5())
+    assert_eq!(5, return5())
 }
