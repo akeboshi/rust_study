@@ -1,3 +1,5 @@
+use std::panic;
+
 fn return7() -> i32 {
     7
 }
@@ -11,8 +13,6 @@ fn immutable_test() {
     let f: fn() -> i32 = return7;
     assert_eq!(f(), 7)
 }
-
-use std::panic;
 
 #[test]
 fn diverges_test() {
