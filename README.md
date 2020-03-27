@@ -4,4 +4,4 @@
 
 学習用 repository です
 
-Ref: <https://doc.rust-jp.rs/the-rust-programming-language-ja/>
+Ref: <https://doc.rust-jp.rs/book/second-edition//>
