@@ -4,7 +4,7 @@ fn convet_fahrenheit_to_centigrade(f: f32) -> f32 {
 
 fn fibonacci(num: u32) -> u32 {
     if num == 0 {
-        return 0
+        return 0;
     }
     let mut ret = 1;
     let mut prev = 0;
@@ -14,6 +14,22 @@ fn fibonacci(num: u32) -> u32 {
         prev = tmp;
     }
     return ret;
+}
+
+fn xxx() -> () {
+    let some_u8_value = 0u8;
+    match some_u8_value {
+        1 => println!("one"),
+        3 => println!("three"),
+        5 => println!("five"),
+        7 => println!("seven"),
+        _ => println!("ok"),
+    }
+}
+
+#[test]
+fn xxx_test() {
+    xxx()
 }
 
 #[test]
