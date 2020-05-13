@@ -7,24 +7,60 @@
 use std::collections::HashMap;
 use regex::Regex;
 
-fn yyy(text: &str) -> HashMap<String, String> {
-    
-    // 最初にマッチした箇所全体を取り出す例
-    let re = Regex::new(r"Add (.+) to (.+)").unwrap();
-    let caps = re.captures(text).unwrap();
-    
-    return xxx(caps.at(1).unwrap(), caps.at(2).unwrap())
-
+struct Company {
+    employee: HashMap<String, Vec<String>>
 }
 
-fn xxx(dep: &str, man: &str) -> HashMap<String, String> {
-    let mut hash = HashMap::new();
-    hash.insert(String::from(dep), String::from(man));
+impl Company {
+    pub fn new() -> Self {
+        Self {
+            employee: HashMap::new()
+        }
+    }
 
-    return hash;
+    pub fn command(self, text: &str) -> Self {
+        let add_re = Regex::new(r"Add (.+) to (.+)").unwrap();
+        let list_re = Regex::new(r"List (.+)").unwrap();
+        
+        let add_caps = add_re.captures(text);
+
+        if let Some(c) = add_caps {
+            return self.add(c.at(2).unwrap(), c.at(1).unwrap());
+        }
+
+        let list_caps = list_re.captures(text);
+
+        if let Some(c) = list_caps {
+            self.list(c.at(1).unwrap());
+            return self;
+        }
+
+        return self;
+    }
+
+    fn add(mut self, dep: &str, man: &str) -> Self {
+        let mans = self.employee.get_mut(&String::from(dep));
+        let mut values: Vec<String> = match mans {
+            None => Vec::new(),
+            Some(some) => some.to_vec(),
+        };
+        values.push(String::from(man));
+        self.employee.insert(String::from(dep), values);
+        return self;
+    }
+
+    fn list(&self, dep: &str) {
+        let mans = self.employee.get(dep);
+        match mans {
+            None => println!("そこにはだれもいませんよ"),
+            Some(some) => println!("---- {:?} ----", some),
+        }
+    }
 }
 
 #[test]
-fn test_xxx() {
-    println!("{:?}", yyy("Add AAA to Foo"))
+fn test_entry_employee() {
+    let b: Company = Company::new();
+    let c = b.command("Add AAA to Foo").command("Add Bar to Foo");
+    c.command("List Foo");
 }

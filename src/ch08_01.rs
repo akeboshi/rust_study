@@ -9,30 +9,22 @@
 
 use std::collections::HashMap;
 
-fn mean(l: &[i32]) -> i32 {
-    let mut a: i32 = 0;
+fn mean<T: std::ops::AddAssign + std::ops::Div + num::ToPrimitive>(l: &[T]) -> f64 {
+    let mut a: f64 = 0.0;
     for i in l {
-        a += i;
+        a += i.to_f64().unwrap();
     }
 
-    return a/( l.len() as i32);
-}
-/*
-fn mean_t<T: std::ops::AddAssign + std::ops::Div>(l: &[T]) -> T {
-    let mut a: T;
-    for i in l {
-        a += *i;
-    }
-
-    return a / l.len();
-}*/
-
-fn medium(l: &[i32]) -> i32 {
-    let mid = l.len() / 2;
-    return l[mid];
+    return a / l.len() as f64;
 }
 
-fn mode(l:&[i32]) -> i32 {
+fn mediun(l: &Vec<i32>) -> i32 {
+    let mut clone = l.clone();
+    clone.sort();
+    return clone[clone.len() / 2];
+}
+
+fn mode(l: &Vec<i32>) -> i32 {
     let mut num_count = HashMap::new();
     for i in l {
         let count = num_count.entry(i).or_insert(0);
@@ -53,8 +45,7 @@ fn mode(l:&[i32]) -> i32 {
 
 #[test]
 fn test_mean() {
-    println!("{}", mean(&[1,2,3]));
-    assert_eq!(mean(&[1,2,3]), 2);
-    assert_eq!(medium(&[1,2,3,4,5]), 3);
-    assert_eq!(mode(&[1,2,3,2,3,3,4,5,6,8]), 3);
+    assert_eq!(mean(&vec![1,2,3]), 2.0);
+    assert_eq!(mediun(&vec![1,4,3,5,5,5,2]), 4);
+    assert_eq!(mode(&vec![1,2,3,2,3,3,4,5,6,8]), 3);
 }
